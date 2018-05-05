@@ -8,7 +8,7 @@
 
 namespace Myaf\Core;
 
-use Myaf\Log\LLog;
+use Myaf\Log\Log;
 use Yaf\Config\Ini;
 use Yaf\Config_Abstract;
 use Yaf\Loader;
@@ -33,7 +33,7 @@ final class G
         Registry::set(R::INI_CONF, $ini);
         Registry::set(R::RUNTIME_TIME, microtime(true));
 
-        LLog::init(
+        Log::init(
             $ini->application->name,
             $ini->common->path->log,
             $ini->application->timezone,
@@ -218,7 +218,7 @@ final class G
      */
     public static function flush()
     {
-        LLog::info('request', G::route(), 'time (ms) ' . G::runtime());
-        LLog::flush();
+        Log::info('request', G::route(), 'time (ms) ' . G::runtime());
+        Log::flush();
     }
 }
