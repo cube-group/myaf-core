@@ -1,4 +1,9 @@
 ## core
+[![Latest Stable Version](https://poser.pugx.org/cube-group/myaf-core/version)](https://packagist.org/packages/cube-group/myaf-core)
+[![Total Downloads](https://poser.pugx.org/cube-group/myaf-core/downloads)](https://packagist.org/packages/cube-group/myaf-core)
+[![License](https://poser.pugx.org/cube-group/myaf-core/license)](https://packagist.org/packages/cube-group/myaf-core)'
+
+核心类库依赖于yaf扩展
 ### namespace
 ```
 "Myaf\\Core\\": "src/core/",
