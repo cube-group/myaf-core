@@ -218,7 +218,6 @@ final class G
      */
     public static function flush()
     {
-        Log::info('request', G::route(), 'time (ms) ' . G::runtime());
         Log::flush();
     }
 }
