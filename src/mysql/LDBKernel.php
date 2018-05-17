@@ -6,7 +6,7 @@
  * Time: 下午2:21
  */
 
-namespace Myaf\Mysql;;
+namespace Myaf\Mysql;
 
 /**
  * Class LDBKernel.
@@ -593,11 +593,15 @@ class LDBKernel
                 if (is_string($value)) {
                     $wheres[] = "`{$column}`='" . addslashes($value) . "'";
                 } else if (is_array($value)) {
-                    $inValueArr = [];
-                    foreach ($value as $inValue) {
-                        $inValueArr[] = is_string($inValue) ? ("'" . addslashes($inValue) . "'") : $inValue;
+                    if (isset($value[0]) && isset($value[1]) && !is_numeric($value[0]) && $value[0] == 'exp') {
+                        $wheres[] = "`{$column}` {$value[1]}";
+                    } else {
+                        $inValueArr = [];
+                        foreach ($value as $inValue) {
+                            $inValueArr[] = is_string($inValue) ? ("'" . addslashes($inValue) . "'") : $inValue;
+                        }
+                        $wheres[] = "`{$column}`" . ' IN (' . join(',', $inValueArr) . ')';
                     }
-                    $wheres[] = "`{$column}`" . ' IN (' . join(',', $inValueArr) . ')';
                 } else {
                     $wheres[] = "`{$column}`=" . $value;
                 }
