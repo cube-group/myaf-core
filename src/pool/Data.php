@@ -115,7 +115,7 @@ class Data
     /**
      * 获取RedisSession操作实例LRedisSession
      * @param string $name
-     * @return mixed
+     * @return LRedisSession
      * @throws Exception
      */
     public static function session($name = 'session'){
@@ -136,7 +136,7 @@ class Data
     /**
      * 获取LRedisMQ操作实例
      * @param string $name
-     * @return mixed
+     * @return LRedisMQ|bool
      * @throws Exception
      */
     public static function mqRedis($name = 'mq')
