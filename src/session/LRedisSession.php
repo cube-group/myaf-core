@@ -64,7 +64,7 @@ class LRedisSession extends Session
                 return false;
             }
             if (is_array($value) || is_object($value)) {
-                $value = serialize($value);
+                $value = @serialize($value);
             }
             if ($this->redis->hSet($this->sessionId, $name, $value)) {
                 $this->resetTTL();//如果新加的key则进行设置timeout
@@ -102,7 +102,7 @@ class LRedisSession extends Session
                 $rt = $this->redis->hGetAll($this->sessionId);
             }
             try {
-                if ($sRt = unserialize($rt)) {
+                if ($sRt = @unserialize($rt)) {
                     return $sRt;
                 }
             } catch (Exception $e) {
