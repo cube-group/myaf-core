@@ -59,13 +59,13 @@ class LRedisSession extends Session
 
     public function set($name, $value)
     {
-        if (!$name) {
-            return false;
-        }
-        if (is_array($value) || is_object($value)) {
-            $value = serialize($value);
-        }
         if ($this->sessionId) {
+            if (!$name) {
+                return false;
+            }
+            if (is_array($value) || is_object($value)) {
+                $value = serialize($value);
+            }
             if ($this->redis->hSet($this->sessionId, $name, $value)) {
                 $this->resetTTL();//如果新加的key则进行设置timeout
             }
@@ -74,10 +74,33 @@ class LRedisSession extends Session
         return false;
     }
 
-    public function get($name)
+    public function mSet($values)
     {
         if ($this->sessionId) {
-            $rt = $this->redis->hGet($this->sessionId, $name);
+            if (!$values || !is_array($values)) {
+                return false;
+            }
+            foreach ($values as $key => $value) {
+                if (is_array($value) || is_object($value)) {
+                    $values[$key] = serialize($value);
+                }
+            }
+            if ($this->redis->hMset($this->sessionId, $values)) {
+                $this->resetTTL();//如果新加的key则进行设置timeout
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function get($name = null)
+    {
+        if ($this->sessionId) {
+            if ($name) {
+                $rt = $this->redis->hGet($this->sessionId, $name);
+            } else {
+                $rt = $this->redis->hGetAll($this->sessionId);
+            }
             try {
                 if ($sRt = unserialize($rt)) {
                     return $sRt;

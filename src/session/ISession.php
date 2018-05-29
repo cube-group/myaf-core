@@ -28,13 +28,19 @@ interface ISession
      * @return bool
      */
     public function set($key, $value);
+    /**
+     * 一次设置多个值
+     * @param $values array
+     * @return bool
+     */
+    public function mSet($values);
 
     /**
      * 获取session.
-     * @param $key
+     * @param $key string
      * @return mixed
      */
-    public function get($key);
+    public function get($key = '');
 
     /**
      * 获取cookie中的定义的session key name.

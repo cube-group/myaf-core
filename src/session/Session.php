@@ -54,11 +54,27 @@ abstract class Session implements ISession
     }
 
     /**
+     * 一次设置多个值
+     * @param $values
+     * @return bool
+     */
+    public function mSet($values)
+    {
+        if (!$values || !is_array($values)) {
+            return false;
+        }
+        foreach ($values as $key => $value) {
+            $this->set($key, $value);
+        }
+        return true;
+    }
+
+    /**
      * 获取session.
-     * @param $key
+     * @param $key string
      * @return mixed
      */
-    public function get($key)
+    public function get($key = '')
     {
         return '';
     }
