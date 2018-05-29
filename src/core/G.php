@@ -103,6 +103,19 @@ final class G
         return Registry::get(R::VALUE_CODE) ? Registry::get(R::VALUE_CODE) : 0;
     }
 
+
+    /**
+     * 设置msg和code
+     *
+     * @param null $msg
+     * @param null $code
+     */
+    public static function msgCode($msg = null, $code = null)
+    {
+        self::msg($msg);
+        self::code($code);
+    }
+
     /**
      * 设置或获取用户访问的虚拟路由
      * @param null $value
