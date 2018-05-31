@@ -99,8 +99,10 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
 
     /**
      * 保存
+     *
      * @param null $attributeNames
      * @return bool
+     * @throws Exception
      */
     public function save($attributeNames = null)
     {
@@ -116,6 +118,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
      *
      * @param null $attributes
      * @return bool
+     * @throws Exception
      */
     public function insert($attributes = null)
     {
