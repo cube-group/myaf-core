@@ -116,7 +116,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
     /**
      * 插入
      *
-     * @param null $attributes
+     * @param null $attributes 如果传入attributes不为null,如传如['name']，最终将只更新name字段的值，否则所有匹配的字段都将更新
      * @return bool
      * @throws Exception
      */
@@ -143,7 +143,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
     /**
      * 更新
      *
-     * @param null $attributes
+     * @param null $attributes 如果传入attributes不为null,如传如['name']，最终将只更新name字段的值，否则所有匹配的字段都将更新
      * @return mixed
      * @throws Exception
      */
