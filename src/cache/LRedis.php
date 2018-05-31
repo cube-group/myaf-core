@@ -33,6 +33,22 @@ use \Exception;
  * @method int del(string|array $key1, string $key2 = null, string $key3 = null)
  * @method int ttl(string $key)
  *
+ * @method int sCard($key)
+ * @method array sDiff($key1, $key2, $keyN = null)
+ * @method int sDiffStore($dstKey, $key1, $key2, $keyN = null)
+ * @method array sInter($key1, $key2, $keyN = null)
+ * @method int sInterStore($dstKey, $key1, $key2, $keyN = null)
+ * @method bool sIsMember($key, $value)
+ * @method bool sMove($srcKey, $dstKey, $member)
+ * @method bool|mixed sPop($key)
+ * @method bool|mixed sRandMember($key)
+ * @method array sUnion($key1, $key2, $keyN = null)
+ * @method int sUnionStore($dstKey, $key1, $key2, $keyN = null)
+ * @method array|bool sScan($key, $iterator, $pattern = '', $count = 0)
+ * @method int sAdd($key, $value1, $value2 = null, $valueN = null)
+ * @method array sMembers(string $key)
+ * @method int sRem($key, $member1, $member2 = null, $memberN = null)
+ *
  * @package Myaf\Cache;
  */
 class LRedis implements ICache
