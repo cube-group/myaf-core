@@ -1,6 +1,7 @@
 <?php
 
-namespace Myaf\Mysql;;
+namespace Myaf\Mysql;
+;
 
 use ArrayAccess;
 use Exception;
@@ -346,7 +347,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
     {
         $keys = self::$primaryKey;
         if (empty($keys)) {
-            throw new Exception(get_class($this) . ' does not have a primary key. You should either define a primary key for the corresponding table or override the primaryKey() method.');
+            throw new Exception(get_class($this) . ' 主键不存在！');
         }
         if (!$asArray && count($keys) === 1) {
             return isset($this->_oldAttributes[$keys[0]]) ? $this->_oldAttributes[$keys[0]] : null;
@@ -609,5 +610,40 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
         }
     }
 
+
+    /**
+     * 删除前置操作
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        return true;
+    }
+
+    /**
+     * 删除后置操作
+     */
+    public function afterDelete()
+    {
+
+    }
+
+    /**
+     * 删除
+     *
+     * @return bool|int
+     * @throws Exception
+     */
+    public function delete()
+    {
+        $result = false;
+        if ($this->beforeDelete()) {
+            $condition = $this->getOldPrimaryKey(true);
+            $result = $this->find()->where($condition)->delete();
+            $this->_oldAttributes = null;
+            $this->afterDelete();
+        }
+        return $result;
+    }
 
 }
