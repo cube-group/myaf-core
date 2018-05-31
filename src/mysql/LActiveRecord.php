@@ -125,6 +125,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
         if (!$this->beforeSave(true)) {
             return false;
         }
+        $this->setAttributes($attributes);
         $values = $this->getDirtyAttributes($attributes);
         if ($this->_db->table($this->tableName())->insert($values) === false) {
             return false;
@@ -143,16 +144,17 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
     /**
      * 更新
      *
-     * @param null $attributeNames
+     * @param null $attributes
      * @return mixed
      * @throws Exception
      */
-    public function update($attributeNames = null)
+    public function update($attributes = null)
     {
         if (!$this->beforeSave(false)) {
             return false;
         }
-        $values = $this->getDirtyAttributes($attributeNames);
+        $this->setAttributes($attributes);
+        $values = $this->getDirtyAttributes($attributes);
         $condition = $this->getOldPrimaryKey(true);
         $rows = $this->_db->table($this->tableName())->where($condition)->update($values);
         $changedAttributes = [];
