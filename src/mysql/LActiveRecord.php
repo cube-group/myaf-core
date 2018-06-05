@@ -399,6 +399,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
      *
      * @param $name
      * @return mixed
+     * @throws Exception
      */
     public function getTableColumn($name)
     {
@@ -411,23 +412,25 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
     /**
      * 获取所有字段信息
      *
-     * @return array
+     * @return mixed
+     * @throws Exception
      */
     public function getTableColumns()
     {
-        if (empty(static::$tableColumns)) {
-            $this->loadTableColumns();
+        if (empty(static::$tableColumns[$this->trueTableName])) {
+            $this->loadTableColumns($this->trueTableName);
         }
-        return static::$tableColumns;
+        return static::$tableColumns[$this->trueTableName];
     }
 
     /**
+     * @param $trueTableName
      * @return bool
      * @throws Exception
      */
-    protected function loadTableColumns()
+    protected function loadTableColumns($trueTableName)
     {
-        $sql = 'SHOW FULL COLUMNS FROM ' . $this->trueTableName();
+        $sql = 'SHOW FULL COLUMNS FROM ' . $trueTableName;
         try {
             $columns = $this->find()->getDb()->query($sql);
         } catch (Exception $e) {
@@ -442,7 +445,7 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
             if ($column['key'] == "PRI") {
                 static::$primaryKey[] = $column['field'];
             }
-            static::$tableColumns[$column['field']] = $this->createColumnSchema($column);
+            static::$tableColumns[$trueTableName][$column['field']] = $this->createColumnSchema($column);
         }
     }
 
