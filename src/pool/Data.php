@@ -115,10 +115,12 @@ class Data
     /**
      * 获取RedisSession操作实例LRedisSession
      * @param string $name
+     * @param string $sessionId session_id，如果传了该参数，不会再生成session_id
      * @return LRedisSession
      * @throws Exception
      */
-    public static function session($name = 'session'){
+    public static function session($name = 'session', $sessionId = null)
+    {
         $conf = G::conf();
         if (!$conf->redis || !$conf->redis->$name) {
             throw new Exception("redis {$name} connection config is null");
@@ -127,7 +129,8 @@ class Data
         if (!isset(self::$connections[$key])) {
             self::$connections[$key] = new LRedisSession(
                 $conf->redis->$name->toArray(),
-                self::$connections['redis-' . $name]
+                self::$connections['redis-' . $name],
+                $sessionId
             );
         }
         return self::$connections[$key];

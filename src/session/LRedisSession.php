@@ -24,9 +24,11 @@ class LRedisSession extends Session
     /**
      * LRedisSession constructor.
      * @param $options array
+     * @param $redis
+     * @param $sessionId
      * @throws Exception
      */
-    public function __construct($options = null, $redis = null)
+    public function __construct($options = null, $redis = null, $sessionId = null)
     {
         if ($redis && $redis instanceof LRedis) {
             $this->redis = $redis;
@@ -40,10 +42,23 @@ class LRedisSession extends Session
         $this->sessionName = 'REDIS_PHPSESSID';
         $this->options = $options;
 
+        if (!empty($sessionId)) {
+            $this->sessionId = $sessionId;
+            return;
+        }
         if (!$this->sessionId = Arrays::get($_COOKIE, $this->sessionName, '')) {
-            $this->sessionId = 'ssid-' . md5(uniqid() . time());
+            $this->sessionId = self::createSessionId();
             setcookie($this->sessionName, $this->sessionId, time() + $this->sessionTimeout, '/');
         }
+    }
+
+    /**
+     * 创建sessionId
+     * @return string
+     */
+    public static function createSessionId()
+    {
+        return 'ssid-' . md5(uniqid() . time());
     }
 
     /**
