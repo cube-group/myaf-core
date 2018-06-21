@@ -669,4 +669,36 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
         return $this->find()->insertMulti(array_keys($insertData[0]), array_values($insertData));
     }
 
+
+
+    /**
+     * 开启事务
+     *
+     * @return bool
+     */
+    public function beginTransaction()
+    {
+        return $this->_db->beginTransaction();
+    }
+
+    /**
+     * 提交
+     *
+     * @return bool
+     */
+    public function commit()
+    {
+        return $this->_db->commit();
+    }
+
+    /**
+     * 回滚
+     *
+     * @return bool
+     */
+    public function rollback()
+    {
+        return $this->_db->rollBack();
+    }
+
 }
