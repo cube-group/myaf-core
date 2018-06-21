@@ -652,4 +652,21 @@ abstract class LActiveRecord implements ArrayAccess, IteratorAggregate, JsonSeri
         return $result;
     }
 
+
+    /**
+     * 批量插入
+     *
+     * @param array $insertData 多维数组 如
+     * [
+     *   [ 'id' => 123, 'name' => 'test1' ],
+     *   [ 'id' => 124, 'name' => 'test2' ],
+     *   ...
+     * ]
+     * @return bool
+     */
+    public function batchInsert(array $insertData)
+    {
+        return $this->find()->insertMulti(array_keys($insertData[0]), array_values($insertData));
+    }
+
 }
